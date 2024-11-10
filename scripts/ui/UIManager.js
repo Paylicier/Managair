@@ -28,7 +28,6 @@ export class UIManager {
     async updateAirportInfo(airport) {
         if (!airport) return;
         document.getElementById('player-airports').textContent = "🏣 "+this.gameService.boughtAirports.length;
-        console.log(airport)
         this.selectedAirport = airport;
         const isOwned = this.gameService.boughtAirports.some(a => 
             a.properties.cartodb_id === airport.properties.cartodb_id
@@ -293,6 +292,7 @@ onPlaneClick(plane) {
                     this.gameService.money += sellPrice;
                     this.updateMoneyDisplay();
                     this.updatePlaneList();
+                    window.mapManager.updateAirportData();
                 }
             }
         });

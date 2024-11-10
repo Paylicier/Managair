@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
     window.mapManager = mapManager;
     window.uiManager = uiManager;
 
+    console.log('___  ___                          _         _      \r\n|  \\\/  |                         ( )       (_)     \r\n| .  . | __ _ _ __   __ _  __ _  |\/    __ _ _ _ __ \r\n| |\\\/| |\/ _` | \'_ \\ \/ _` |\/ _` |      \/ _` | | \'__|\r\n| |  | | (_| | | | | (_| | (_| |     | (_| | | |   \r\n\\_|  |_\/\\__,_|_| |_|\\__,_|\\__, |      \\__,_|_|_|   \r\n                           __\/ |                   \r\n                          |___\/                    \n\nA simple airport management game by paylicier\n\n');
+
     setInterval(() => {
         if (gameService.isPlaying) {
             gameService.tick();

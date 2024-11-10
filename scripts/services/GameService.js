@@ -1,11 +1,28 @@
 import { CONFIG } from '../config.js';
 import { Plane } from '../models/Plane.js';
+import { Airport } from '../models/Airport.js';
 export class GameService {
     constructor() {
         this.money = CONFIG.GAME.INITIAL_MONEY;
         this.time = 0;
-        this.isPlaying = true;
+        this.isPlaying = false;
         this.boughtAirports = [];
+        if(localStorage.getItem('save')) {
+            try {
+            const save = JSON.parse(localStorage.getItem('save'));
+            this.money = save.money;
+            this.time = save.time;
+            this.boughtAirports = save.boughtAirports.map(airport => {
+                //create new airport object and planes with the same properties
+                const airportObj = new Airport(airport.properties, airport.coordinates);
+                airportObj.planes = airport.planes.map(plane => new Plane(plane.tier, plane.uuid, plane.company, plane.name));
+                return airportObj;
+            })
+        } catch (e) {
+            console.error('Error loading save', e);
+            localStorage.removeItem('save');
+        }
+        }
     }
 
     processAirportOperations() {
@@ -25,7 +42,7 @@ export class GameService {
         const destination = this.boughtAirports.filter(
             airport => airport.getLevel() === destLevel && 
             airport.properties.gps_code !== origin.properties.gps_code && 
-            !airport.isBlocked
+            !airport.isBlocked && airport.planes.length < CONFIG.GAME.MAX_PLANES_PER_AIRPORT
         )[Math.floor(Math.random() * this.boughtAirports.length)];
 
         if (!destination) return;
@@ -41,9 +58,13 @@ export class GameService {
 
         const travelTime = Math.floor(distance / 10);
         origin.planes.splice(origin.planes.indexOf(plane), 1);
+
+        console.log(`Plane ${plane.name} is flying from ${origin.properties.name} to ${destination.properties.name} and will take ${travelTime} seconds. Revenue: $${revenue}`);
         
         setTimeout(() => {
             destination.planes.push(plane);
+            mapManager.updateAirportData();
+            console.log(`Plane ${plane.name} has arrived at ${destination.properties.name}`);
         }, travelTime * 1000);
     }
 
@@ -54,6 +75,20 @@ export class GameService {
             this.triggerRandomEvent();
         }
         this.processAirportOperations();
+        this.saveGame();
+        if(this.money < 0) {
+            window.uiManager.openInfoModal('Gameover ! You have gone bankrupt! <br> <i>Use the reset game button in the settings to play again</i>', './assets/gameover.png');
+            this.isPlaying = false;
+            localStorage.removeItem('save');
+        }
+    }
+
+    saveGame() {
+        localStorage.setItem('save', JSON.stringify({
+            money: this.money,
+            time: this.time,
+            boughtAirports: this.boughtAirports
+        }));
     }
 
     triggerRandomEvent() {
@@ -77,6 +112,7 @@ export class GameService {
         airport.isBlocked = false;
         airport.bonus = 1;
         this.boughtAirports.push(airport);
+        window.mapManager.updateAirportData()
         return true;
     }
 
@@ -92,6 +128,8 @@ export class GameService {
         airport.planes.forEach(plane => {
             this.money += plane.getPrice() * 0.6;
         });
+
+        window.mapManager.updateAirportData()
 
         this.boughtAirports.splice(index, 1);
         return true;
@@ -109,6 +147,7 @@ export class GameService {
         this.money -= price;
         const newPlane = new Plane(tier);
         airportObj.planes.push(newPlane);
+        mapManager.updateAirportData();
         return newPlane;
     }
 }

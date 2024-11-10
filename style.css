@@ -5,3 +5,26 @@ body.full-map #map {
 body {
     background-color: #B4CAE3;
 }
+
+
+ 
+  /* Loading image that fills horizontally */
+  #loading-image-gray {
+    background-image: url('./assets/logo.png');
+    background-size: cover;
+    background-position: center;
+    filter: grayscale(100%);
+    border-radius: 5px;
+}
+
+#loading-image-color {
+    background-image: url('./assets/logo.png');
+    background-size: cover;
+    background-position: center;
+    border-radius: 5px;
+    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+}
+
+#loadingModal {
+    transition: opacity 0.5s;
+}

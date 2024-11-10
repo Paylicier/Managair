@@ -1,7 +1,7 @@
 export const CONFIG = {
     GAME: {
         INITIAL_MONEY: 40_000_000,
-        MAX_PLANES_PER_AIRPORT: 15,
+        MAX_PLANES_PER_AIRPORT: 5,
         PLANE_BASE_PRICE: 10_000,
         TICK_INTERVAL: 1000,
         DAY_LENGTH: 1440
@@ -10,7 +10,7 @@ export const CONFIG = {
         STYLE_URL: '', // Add your own style URL here
         INITIAL_CENTER: [0, 0],
         INITIAL_ZOOM: 3,
-        AIRPORTS_URL: './assets/airports.geojson',
+        AIRPORTS_URL: 'https://managair.pages.dev/assets/airports.geojson',
         PULSING_DOT_SIZE: 200
     },
     COMPANIES: ["SkyHansa" , "Air Listembourg", "NordFlyer", "SwissWings", "AeroItalia", "Britavia", "SkyItalia", "EuroJet", "PolarAir", "FlyDutch"],

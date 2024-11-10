@@ -199,6 +199,16 @@
         </div>
     </div>
 </div>
+<div id="loadingModal" class="fixed z-50 modal inset-0 bg-gray-900 bg-opacity-50 backdrop-blur-lg overflow-y-auto h-full w-full px-4">
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <div class="relative w-[700px] h-[482px] rounded-lg mb-4">
+            <!-- Grayscale base layer -->
+            <div id="loading-image-gray" class="absolute inset-0"></div>
+            <!-- Colored overlay that reveals -->
+            <div id="loading-image-color" class="absolute inset-0"></div>
+        </div>
+    </div>
+</div>
     
     <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
     <script
@@ -208,9 +218,39 @@
     <script src="scripts/main.js" type="module"></script>
 </body>
 </html>
+<script>
 
+    /////////////////// 
+    //                //
+    //     Loader     //
+    //               //
+    ///////////////////
 
+document.addEventListener("DOMContentLoaded", () => {
+  const loadingImageColor = document.getElementById("loading-image-color");
+  const loadingContainer = document.getElementById("loadingModal");
+  let startTime = performance.now();
 
+  function updateProgress() {
+    const elapsedTime = performance.now() - startTime;
+    const progressPercentage = Math.min((elapsedTime / 3000) * 100, 100);
+    
+    loadingImageColor.style.clipPath = `polygon(0 0, ${progressPercentage}% 0, ${progressPercentage}% 100%, 0 100%)`;
 
+    if(progressPercentage > 90) {
+        window.gameService.isPlaying = true;
+    }
 
+    if (progressPercentage < 100) {
+      requestAnimationFrame(updateProgress);
+    } else {
+        loadingContainer.style.opacity = 0;
+        setTimeout(() => {
+            loadingContainer.style.display = "none";
+        }, 500);
+    }
+  }
 
+  requestAnimationFrame(updateProgress);
+});
+</script>
