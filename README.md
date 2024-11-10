@@ -18,8 +18,8 @@ You can try it [here](https://managair.pages.dev/)
 
 ## Todo
 - [ ] Plane animation
-- [ ] Save system
-- [ ] Circles colors (gray = not owned, red = no plane and green = working)
+- [x] Save system
+- [x] Circles colors (gray = not owned, red = no plane and green = working)
 
 ## License
 This work is licensed under a
