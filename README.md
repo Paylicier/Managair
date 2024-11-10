@@ -3,7 +3,7 @@
   <h2 align="center" >Manag'air, a simple airport management game</h2>
 </p>
 
-This game was created in a few days for Hacker Club's High Seas
+This game was created in a few days for Hack Club's High Seas
 
 
 ## Demo
