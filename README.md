@@ -7,13 +7,14 @@ This game was created in a few days for Hacker Club's High Seas
 
 
 ## Demo
-Soon, i need to deploy it
+You can try it [here](https://managair.pages.dev/)
 
 ## Install
 
 1. Git clone the repo
-2. Open index.html
-3. Play
+2. Set your maptiler style url (should look like this : https://api.maptiler.com/maps/cd96539f-d84d-4d59-9c3f-1f57ac416070/style.json?key=RMpkt3cGD1t4sCh4ySex
+3. Open index.html
+4. Play
 
 ## Todo
 - [ ] Plane animation
